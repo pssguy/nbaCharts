@@ -5,10 +5,10 @@ dashboardPage(skin="yellow",
   
   dashboardSidebar(
     includeCSS("custom.css"),
-
+    uiOutput("a"),
     
     sidebarMenu(id = "sbMenu",
-      uiOutput("a"),
+      
       menuItem(
         "Three Point", tabName = "threePoints",icon = icon("line-chart"), selected=T
       ),
@@ -43,10 +43,10 @@ dashboardPage(skin="yellow",
       "threePoints",
       
       
-      box(width=4,
+      box(width=6,
         status = "success", solidHeader = TRUE,
-         title = "3P",
-         textOutput("player"),
+         title = "Cumulative 2016",
+        # textOutput("player"),
          plotlyOutput("chart")
       )
     )
