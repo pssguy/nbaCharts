@@ -7,7 +7,7 @@ shinyServer(function(input, output, session) {
     
     if (input$sbMenu=="threePoints") { 
      
-      inputPanel(selectInput("player", label=NULL,playerChoice))
+      inputPanel(selectInput("player", label=NULL,playerChoice, selected="nba-stephen-curry"))
     } 
     
   })

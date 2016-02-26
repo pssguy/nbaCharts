@@ -15,7 +15,7 @@ playerChoice <- players$slug
 names(playerChoice) <- players$name
 
 ## 
-set_token('14954863fc861a855e8510512308dd38')
+token <-set_token('14954863fc861a855e8510512308dd38')
 
 ## set params
 sport <- "basketball" # default hockey
