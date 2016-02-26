@@ -4,6 +4,7 @@ library(stattleshipR)
 library(dplyr)
 library(readr)
 library(stringr)
+library(plotly)
 
 teams <- read_csv("data/teams.csv")
 players <- read_csv("data/players.csv")

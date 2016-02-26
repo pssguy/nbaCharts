@@ -46,7 +46,8 @@ dashboardPage(skin="yellow",
       box(width=4,
         status = "success", solidHeader = TRUE,
          title = "3P",
-         textOutput("player")
+         textOutput("player"),
+         plotlyOutput("chart")
       )
     )
 

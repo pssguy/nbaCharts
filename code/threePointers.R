@@ -53,3 +53,17 @@ output$player <- renderText({
 
   data()$player
 })
+
+
+output$chart <- renderPlotly({
+  
+  print("")
+  
+  plot_ly(data()$logs, x = cumsum(three_pointers_attempted), y = cumsum(three_pointers_made), mode = "markers", hoverinfo = "text", group=team_outcome,  # changes to black marker=list(color=team_outcome),
+          text = paste(str_sub(game_started_at,1,10),"<br> Made:",three_pointers_made,"<br> Attempts:",three_pointers_attempted)) %>%  # need Opponent id 
+    layout(hovermode = "closest",
+           xaxis=list(title="Cumulative Attempts"),
+           yaxis=list(title="Cumulative Made"
+           )
+    ) 
+})
