@@ -45,9 +45,14 @@ dashboardPage(skin="yellow",
       
       box(width=6,
         status = "success", solidHeader = TRUE,
-         title = "Cumulative 2016",
+         title = "Cumulative 3 pointers - 2015/16",
         # textOutput("player"),
-         plotlyOutput("chart")
+         plotlyOutput("threePtCum")
+      ),
+      box(width=6,
+          status = "success", solidHeader = TRUE,
+          title = "Game Logs",
+          DT::dataTableOutput("gameLogs")
       )
     )
 

@@ -3,9 +3,9 @@
 data <-eventReactive(input$go,{
   
   req(input$player)
- # req(input$category)
 
-  print(input$category)
+
+
   
   name <- players[players$slug==input$player,]$name
   
@@ -45,6 +45,10 @@ data <-eventReactive(input$go,{
   
  logs_df <- logs_df %>% 
    arrange(game_ended_at)
+ 
+ ## for workingdoc
+ 
+ write_csv(logs_df,"gameLogs.csv")
   
   info=list(logs=logs_df,games=games_df,player=name)
   return(info)
@@ -59,7 +63,7 @@ data <-eventReactive(input$go,{
 # })
 
 
-output$chart <- renderPlotly({
+output$threePtCum <- renderPlotly({
   
   #print(input$category)
   df <- data()$logs
@@ -73,7 +77,8 @@ p <-  pc <- round(100*sum(df$three_pointers_made)/sum(df$three_pointers_attempte
   theTitle <- paste0(data()$player, " - 3 Pointers ",pc,"%")
   
   plot_ly(data()$logs, x = cumsum(three_pointers_attempted), y = cumsum(three_pointers_made), mode = "markers", hoverinfo = "text", group=team_outcome, 
-          text = paste(str_sub(game_started_at,1,10),"<br> Made:",three_pointers_made,"<br> Attempts:",three_pointers_attempted,"<br> Tot Made:",cumsum(three_pointers_made),"<br> Tot Attempts:",cumsum(three_pointers_attempted)))
+          text = paste(str_sub(game_started_at,1,10),"<br> Made:",three_pointers_made,"<br> Attempts:",three_pointers_attempted,"<br> Tot Made:",cumsum(three_pointers_made),"<br> Tot Attempts:",cumsum(three_pointers_attempted)))  %>% 
+    add_trace(x = cumsum(three_pointers_attempted), y = three_pointers_made, type= "bar",name = "Shots Made")
   } else if (input$category=="FG") {
     p <-  pc <- round(100*sum(df$field_goals_made)/sum(df$field_goals_attempted),1)
     theTitle <- paste0(data()$player, " - Field Goals ",pc,"%")
@@ -95,5 +100,13 @@ p <-  pc <- round(100*sum(df$three_pointers_made)/sum(df$three_pointers_attempte
            
     ) %>% 
     config(displayModeBar = F)
+  
+})
+
+output$gameLogs <- DT::renderDataTable({
+  
+  data()$logs%>% 
+    select(FG=field_goals_made,FGPC=field_goals_pct,PM3=three_pointers_made) %>% 
+   DT::datatable(class='compact stripe hover row-border order-column',rownames=FALSE,options= list(paging = TRUE, searching = FALSE,info=FALSE))
   
 })

@@ -16,7 +16,7 @@ shinyServer(function(input, output, session) {
     } 
     
   })
-  source("code/threePointers.R", local=TRUE)
+  source("code/gameLogs.R", local=TRUE)
   
  
   
