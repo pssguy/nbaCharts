@@ -8,10 +8,10 @@ shinyServer(function(input, output, session) {
     if (input$sbMenu=="threePoints") { 
     
        inputPanel(
-        selectInput("player", label=NULL,playerChoice, selected="nba-stephen-curry"),
-      radioButtons("category", label=NULL, choices=c("FG","3P","FT"),inline=T),
+        selectInput("player", label="Select Player",playerChoice, selected="nba-stephen-curry"),
+      radioButtons("category", label=NULL, choices=c("FG","3P","FT"), selected="3P",inline=T),
       actionButton("go","Get Player Data")
-       )  # not remaining in sidebar
+       ) 
      
     } 
     

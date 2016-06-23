@@ -10,7 +10,7 @@ dashboardPage(skin="yellow",
     sidebarMenu(id = "sbMenu",
       
       menuItem(
-        "Three Point", tabName = "threePoints",icon = icon("line-chart"), selected=T
+        "Game Logs", tabName = "threePoints",icon = icon("line-chart"), selected=T
       ),
       # menuItem(
       #   "Run Differential", tabName = "RD",icon = icon("area-chart")
@@ -43,13 +43,13 @@ dashboardPage(skin="yellow",
       "threePoints",
       
       
-      box(width=6,
+      box(width=5,
         status = "success", solidHeader = TRUE,
-         title = "Cumulative 3 pointers - 2015/16",
+         title = "Cumulative Scoring - 2015/16   Hover Points/Bars for details",
         # textOutput("player"),
          plotlyOutput("threePtCum")
       ),
-      box(width=6,
+      box(width=7,
           status = "success", solidHeader = TRUE,
           title = "Game Logs",
           DT::dataTableOutput("gameLogs")
