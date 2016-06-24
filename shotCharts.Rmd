@@ -332,7 +332,7 @@ shotData <- reactive({
     shot_value = ifelse(tolower(shot_type) == "3pt field goal", 3, 2)
   )
   
-glimpse(shots)
+#glimpse(shots) nothing on season need to 
 
   return(list(player = shots))
 })
@@ -536,9 +536,41 @@ plotOutput("plot")
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### plotly example
 
 ```{r}
+
+output$plotlyTest <- renderPlotly({
+
+   # if (use_short_three) {
+   #   base_court = short_three_court
+   # } else {
+   #   base_court = court
+   # }
+
+   
+   base_court = court
+   
+   shots <- shotData()$player
+   
+   (glimpse(shots))
+
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE)
+    p
+
+ })
+
+plotlyOutput("plotlyTest")
 
 ```
 
