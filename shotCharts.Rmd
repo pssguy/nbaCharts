@@ -1,0 +1,749 @@
+---
+title: "NBA Shot Charts"
+author: "myTinyShinys"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny    
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+
+library(ggplot2)
+library(httr)
+library(jsonlite)
+library(readr)
+library(plotly)
+
+library(dplyr)
+
+
+# test
+oneGame <- read_csv("data/oneGame.csv")
+
+# source("helpers.R")
+# source("plot_court.R")
+#source("players_data.R")
+#source("fetch_shots.R")
+#source("hex_chart.R")
+#source("scatter_chart.R")
+#source("heatmap_chart.R")
+```
+
+<!-- Code from ballR -->
+
+``` {r helpers}
+
+# possibly replace with viridis package
+
+fraction_to_percent_format = function(frac, digits = 1) {
+  paste0(format(round(frac * 100, digits), nsmall = digits), "%")
+}
+
+bg_color = '#000004'
+
+# from viridis::inferno(100). hard-coded to avoid requiring the viridis package
+inferno_colors = c('#000004', '#010107', '#02020C', '#030312', '#050417', '#07051D', '#0A0723', '#0D0829', '#100A2F', '#140B35', '#170C3B', '#1B0C41', '#1F0C48', '#230C4E', '#280B53', '#2C0B58', '#310A5D', '#350960', '#3A0963', '#3E0966', '#430A68', '#470B6A', '#4B0C6B', '#4F0D6C', '#540F6D', '#58106E', '#5C126E', '#60136E', '#64156E', '#68166E', '#6C186E', '#70196E', '#741B6E', '#781C6D', '#7D1E6D', '#811F6C', '#85216B', '#89226A', '#8D2369', '#912568', '#952667', '#992865', '#9D2964', '#A12B62', '#A52D60', '#A92E5E', '#AD305C', '#B1325A', '#B53458', '#B93656', '#BD3853', '#C03A51', '#C43C4E', '#C83F4C', '#CB4149', '#CF4446', '#D24644', '#D54941', '#D84C3E', '#DB4F3B', '#DE5338', '#E15635', '#E45A32', '#E65D2F', '#E9612B', '#EB6528', '#ED6925', '#EF6D22', '#F1711E', '#F3751B', '#F47A18', '#F67E14', '#F78311', '#F8870E', '#F98C0A', '#FA9008', '#FB9506', '#FB9A06', '#FC9F07', '#FCA409', '#FCA80D', '#FCAD12', '#FCB217', '#FBB71C', '#FBBC22', '#FAC128', '#F9C72E', '#F8CC35', '#F7D13C', '#F6D643', '#F5DB4B', '#F4E054', '#F3E45D', '#F2E967', '#F1EE71', '#F2F27C', '#F3F587', '#F5F991', '#F8FC9B', '#FCFFA4')
+
+# viridis::viridis(100)
+viridis_colors = c('#440154', '#450558', '#46085C', '#470C5F', '#471063', '#481466', '#48176A', '#481B6D', '#481E70', '#482273', '#482575', '#482878', '#472B7A', '#472F7D', '#46327F', '#453580', '#453882', '#443B84', '#433E85', '#424186', '#414487', '#3F4788', '#3E4A89', '#3D4D8A', '#3C508B', '#3A538B', '#39558C', '#38588C', '#375B8D', '#355D8D', '#34608D', '#33638D', '#32658E', '#31688E', '#2F6A8E', '#2E6D8E', '#2D6F8E', '#2C728E', '#2B748E', '#2A778E', '#29798E', '#287C8E', '#277E8E', '#26808E', '#26838E', '#25858E', '#24888E', '#238A8D', '#228C8D', '#218F8D', '#20918C', '#20948C', '#1F968B', '#1F998A', '#1E9B8A', '#1F9D89', '#1FA088', '#1FA287', '#20A586', '#22A785', '#23A983', '#25AC82', '#28AE80', '#2BB07E', '#2EB37D', '#31B57B', '#35B779', '#39BA76', '#3DBC74', '#42BE72', '#46C06F', '#4BC26C', '#50C469', '#56C666', '#5BC863', '#61CA60', '#66CC5D', '#6CCE59', '#72CF56', '#79D152', '#7FD34E', '#85D44A', '#8CD646', '#92D742', '#99D93D', '#A0DA39', '#A6DB35', '#ADDC30', '#B4DD2C', '#BBDE27', '#C2DF23', '#C9E01F', '#D0E11C', '#D6E21A', '#DDE318', '#E4E418', '#EAE51A', '#F1E51D', '#F7E620', '#FDE725')
+
+```
+
+``` {r plot_court}
+
+
+## may want to change size for individual games
+
+circle_points = function(center = c(0, 0), radius = 1, npoints = 360) {
+  angles = seq(0, 2 * pi, length.out = npoints)
+  return(data.frame(x = center[1] + radius * cos(angles),
+                    y = center[2] + radius * sin(angles)))
+}
+
+theme_court = function(base_size = 16) {
+  theme_bw(base_size) +
+    theme(
+      text = element_text(color = "#f0f0f0"),
+      plot.background = element_rect(fill = bg_color, color = bg_color),
+      panel.background = element_rect(fill = bg_color, color = bg_color),
+      panel.grid = element_blank(),
+      panel.border = element_blank(),
+      axis.text = element_blank(),
+      axis.title = element_blank(),
+      axis.ticks.length = unit(0, "lines"),
+      legend.background = element_rect(fill = bg_color, color = bg_color),
+      legend.position = "bottom",
+      legend.key = element_blank(),
+      legend.text = element_text(size = rel(1.0))
+    )
+}
+
+width = 50
+height = 94 / 2
+key_height = 19
+inner_key_width = 12
+outer_key_width = 16
+backboard_width = 6
+backboard_offset = 4
+neck_length = 0.5
+hoop_radius = 0.75
+hoop_center_y = backboard_offset + neck_length + hoop_radius
+three_point_radius = 23.75
+three_point_side_radius = 22
+three_point_side_height = 14
+
+short_three_radius = 22
+short_three_seasons = c("1994-95", "1995-96", "1996-97")
+
+court_points = data.frame(
+  x = c(width / 2, width / 2, -width / 2, -width / 2, width / 2),
+  y = c(height, 0, 0, height, height),
+  desc = "perimeter"
+)
+
+court_points = rbind(court_points , data.frame(
+  x = c(outer_key_width / 2, outer_key_width / 2, -outer_key_width / 2, -outer_key_width / 2),
+  y = c(0, key_height, key_height, 0),
+  desc = "outer_key"
+))
+
+court_points = rbind(court_points , data.frame(
+  x = c(-backboard_width / 2, backboard_width / 2),
+  y = c(backboard_offset, backboard_offset),
+  desc = "backboard"
+))
+
+court_points = rbind(court_points , data.frame(
+  x = c(0, 0), y = c(backboard_offset, backboard_offset + neck_length), desc = "neck"
+))
+
+foul_circle = circle_points(center = c(0, key_height), radius = inner_key_width / 2)
+foul_circle_top = filter(foul_circle, y > key_height) %>% mutate(desc = "foul_circle_top")
+foul_circle_bottom = filter(foul_circle, y < key_height) %>% mutate(desc = "foul_circle_bottom")
+
+hoop = circle_points(center = c(0, hoop_center_y), radius = hoop_radius) %>% mutate(desc = "hoop")
+
+restricted = circle_points(center = c(0, hoop_center_y), radius = 4) %>%
+  filter(y >= hoop_center_y) %>%
+  mutate(desc = "restricted")
+
+three_point_circle = circle_points(center = c(0, hoop_center_y), radius = three_point_radius) %>% filter(y >= three_point_side_height)
+short_three_circle = circle_points(center = c(0, hoop_center_y), radius = short_three_radius) %>% filter(y >= hoop_center_y)
+
+three_point_line = data.frame(
+  x = c(three_point_side_radius, three_point_side_radius, three_point_circle$x, -three_point_side_radius, -three_point_side_radius),
+  y = c(0, three_point_side_height, three_point_circle$y, three_point_side_height, 0),
+  desc = "three_point_line"
+)
+
+short_three_line = data.frame(
+  x = c(three_point_side_radius, three_point_side_radius, short_three_circle$x, -three_point_side_radius, -three_point_side_radius),
+  y = c(0, hoop_center_y, short_three_circle$y, hoop_center_y, 0),
+  desc = "short_three_line"
+)
+
+court_without_three = rbind(court_points , foul_circle_top, foul_circle_bottom, hoop, restricted)
+
+court_points = rbind(court_without_three, three_point_line)
+court_points = mutate(court_points , dash = (desc == "foul_circle_bottom"))
+
+short_three_court_points = rbind(court_without_three, short_three_line)
+short_three_court_points = mutate(short_three_court_points , dash = (desc == "foul_circle_bottom"))
+
+court = ggplot() +
+  geom_path(data = court_points,
+            aes(x = x, y = y, group = desc, linetype = dash),
+            color = "#999999") +
+  scale_linetype_manual(values = c("solid", "longdash"), guide = FALSE) +
+  coord_fixed(ylim = c(0, 35), xlim = c(-25, 25)) +
+  theme_court(base_size = 22)
+
+short_three_court = ggplot() +
+  geom_path(data = short_three_court_points,
+            aes(x = x, y = y, group = desc, linetype = dash),
+            color = "#999999") +
+  scale_linetype_manual(values = c("solid", "longdash"), guide = FALSE) +
+  coord_fixed(ylim = c(0, 35), xlim = c(-25, 25)) +
+  theme_court(base_size = 22)
+
+print("finished base court")
+
+```
+
+
+``` {r players_data}
+
+players_url = "http://stats.nba.com/stats/commonallplayers?LeagueID=00&Season=2015-16&IsOnlyCurrentSeason=0"
+players_data = fromJSON(players_url)
+players = tbl_df(data.frame(players_data$resultSets$rowSet[[1]], stringsAsFactors = FALSE))
+names(players) = tolower(players_data$resultSets$headers[[1]])
+
+players = mutate(players,
+  person_id = as.numeric(person_id),
+  rosterstatus = !!as.numeric(rosterstatus),
+  from_year = as.numeric(from_year),
+  to_year = as.numeric(to_year),
+  team_id = as.numeric(team_id)
+)
+
+## currently true June 2016
+if (Sys.Date() <= as.Date("2016-10-25")) {
+  players = mutate(players, to_year = pmin(to_year, 2015))
+}
+
+players$name = sapply(players$display_last_comma_first, function(s) {
+  paste(rev(strsplit(s, ", ")[[1]]), collapse = " ")
+})
+
+first_year_of_data = 1996
+last_year_of_data = max(players$to_year)
+season_strings = paste(first_year_of_data:last_year_of_data,
+                       substr(first_year_of_data:last_year_of_data + 1, 3, 4),
+                       sep = "-")
+names(season_strings) = first_year_of_data:last_year_of_data
+
+available_players = filter(players, to_year >= first_year_of_data)
+
+names_table = table(available_players$name)
+dupe_names = names(names_table[which(names_table > 1)])
+
+available_players$name[available_players$name %in% dupe_names] = paste(
+  available_players$name[available_players$name %in% dupe_names],
+  available_players$person_id[available_players$name %in% dupe_names]
+)
+
+available_players$lower_name = tolower(available_players$name)
+available_players = arrange(available_players, lower_name)
+
+find_player_by_name = function(n) {
+  filter(available_players, lower_name == tolower(n))
+}
+
+find_player_id_by_name = function(n) {
+  find_player_by_name(n)$person_id
+}
+
+default_player = find_player_by_name("Stephen Curry")
+default_years = as.character(default_player$from_year:default_player$to_year)
+default_seasons = as.character(season_strings[default_years])
+default_season = rev(default_seasons)[1]
+
+player_photo_url = function(player_id) {
+  paste0("http://stats.nba.com/media/players/230x185/", player_id, ".png")
+}
+
+
+```
+
+
+``` {r fetch_shots}
+
+fetch_shots_by_player_id_and_season = function(player_id, season) {
+  req(player_id, season)
+  
+  print(player_id)
+  print(season)
+  
+  # player_id <- 201939
+  # season <- "2015-16"
+
+  request = GET(
+    "http://stats.nba.com/stats/shotchartdetail",
+    query = list(
+      PlayerID = player_id,
+      Season = season,
+      ContextMeasure = "FGA",
+      DateFrom = "",
+      DateTo = "",
+      GameID = "",
+      GameSegment = "",
+      LastNGames = 0,
+      LeagueID = "00",
+      Location = "",
+      Month = 0,
+      OpponentTeamID = 0,
+      Outcome = "",
+      Period = 0,
+      Position = "",
+      RookieYear = "",
+      SeasonSegment = "",
+      SeasonType = "Regular Season",
+      TeamID = 0,
+      VsConference = "",
+      VsDivision = ""
+    )
+  )
+
+  stop_for_status(request)
+
+  data = content(request)
+
+  
+  
+  
+  raw_shots_data = data$resultSets[[1]]$rowSet
+  col_names = tolower(as.character(data$resultSets[[1]]$headers))
+
+  if (length(raw_shots_data) == 0) {
+    shots = data.frame(
+      matrix(nrow = 0, ncol = length(col_names))
+    )
+  } else {
+    shots = data.frame(
+      matrix(
+        unlist(raw_shots_data),
+        ncol = length(col_names),
+        byrow = TRUE
+      )
+    )
+  }
+
+  shots = tbl_df(shots)
+  names(shots) = col_names
+
+  shots = mutate(shots,
+    loc_x = as.numeric(as.character(loc_x)) / 10,
+    loc_y = as.numeric(as.character(loc_y)) / 10 + hoop_center_y,
+    shot_distance = as.numeric(as.character(shot_distance)),
+    shot_made_numeric = as.numeric(as.character(shot_made_flag)),
+    shot_made_flag = factor(shot_made_flag, levels = c("1", "0"), labels = c("made", "missed")),
+    shot_attempted_flag = as.numeric(as.character(shot_attempted_flag)),
+    shot_value = ifelse(tolower(shot_type) == "3pt field goal", 3, 2)
+  )
+  
+  #write_csv(shots,"curry.csv")
+
+    # prob dont need if just showing scatter plot
+  
+  # raw_league_avg_data = data$resultSets[[2]]$rowSet
+  # league_avg_names = tolower(as.character(data$resultSets[[2]]$headers))
+  # league_averages = tbl_df(data.frame(
+  #   matrix(unlist(raw_league_avg_data), ncol = length(league_avg_names), byrow = TRUE)
+  # ))
+  # names(league_averages) = league_avg_names
+  # league_averages = mutate(league_averages,
+  #   fga = as.numeric(as.character(fga)),
+  #   fgm = as.numeric(as.character(fgm)),
+  #   fg_pct = as.numeric(as.character(fg_pct)),
+  #   shot_value = ifelse(shot_zone_basic %in% c("Above the Break 3", "Backcourt", "Left Corner 3", "Right Corner 3"), 3, 2)
+  # )
+
+  return(list(player = shots))
+}
+
+default_shots = fetch_shots_by_player_id_and_season(default_player$person_id, default_season)
+
+
+
+```
+
+``` {r scatter}
+
+# switched to individual charts
+
+# generate_scatter_chart = function(shots, use_short_three = FALSE) {
+#   if (use_short_three) {
+#     base_court = short_three_court
+#   } else {
+#     base_court = court    
+#   }
+# 
+#   # test
+#   shots <- oneGame
+#   
+#   base_court +
+#     geom_point(
+#       data = shots,
+#       aes(x = loc_x, y = loc_y,
+#           color = shot_made_flag),
+#       alpha = 0.8, size = 2.5
+#     ) +
+#     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+# }
+# 
+
+```
+
+``` {r server code}
+## presumably can dispense with lots
+
+ current_player = reactive({
+    req(input$player_name)
+    find_player_by_name(input$player_name)
+  })
+
+  current_player_seasons = reactive({
+    req(current_player())
+
+    first = max(current_player()$from_year, first_year_of_data)
+    last = current_player()$to_year
+    as.character(season_strings[as.character(first:last)])
+  })
+
+  current_season = reactive({
+    req(input$season)
+    input$season
+  })
+
+  update_season_input = observe({
+    req(current_player(), current_player_seasons())
+
+    isolate({
+      if (current_season() %in% current_player_seasons()) {
+        selected_value = current_season()
+      } else {
+        selected_value = rev(current_player_seasons())[1]
+      }
+
+      updateSelectInput(session,
+                        "season",
+                        choices = rev(current_player_seasons()),
+                        selected = selected_value)
+    })
+  })
+
+  shots = reactive({
+    req(current_player(), current_season())
+    req(current_season() %in% current_player_seasons())
+
+    use_default_shots = current_player()$person_id == default_player$person_id & current_season() == default_season
+
+    if (use_default_shots) {
+      default_shots
+    } else {
+      fetch_shots_by_player_id_and_season(current_player()$person_id, current_season())
+    }
+  })
+
+  filtered_shots = reactive({
+    req(input$shot_result_filter, shots()$player)
+
+    filter(shots()$player,
+      input$shot_result_filter == "all" | shot_made_flag == input$shot_result_filter,
+      shot_zone_basic != "Backcourt",
+      is.null(input$shot_zone_basic_filter) | shot_zone_basic %in% input$shot_zone_basic_filter,
+      is.null(input$shot_zone_angle_filter) | shot_zone_area %in% input$shot_zone_angle_filter,
+      is.null(input$shot_distance_filter) | shot_zone_range %in% input$shot_distance_filter
+    )
+  })
+
+  hexbin_data = reactive({
+    req(filtered_shots(), shots(), hexbinwidths(), input$hex_radius)
+
+    calculate_hexbins_from_shots(filtered_shots(), shots()$league_averages,
+                                 binwidths = hexbinwidths(),
+                                 min_radius_factor = input$hex_radius)
+  })
+
+  output$hexbinwidth_slider = renderUI({
+    req(input$chart_type == "Hexagonal")
+
+    sliderInput("hexbinwidth",
+                "Hexagon Size (feet)",
+                min = 0.5,
+                max = 4,
+                value = 1.5,
+                step = 0.25)
+  })
+
+  hexbinwidths = reactive({
+    req(input$hexbinwidth)
+    rep(input$hexbinwidth, 2)
+  })
+
+  output$hex_radius_slider = renderUI({
+    req(input$chart_type == "Hexagonal")
+
+    sliderInput("hex_radius",
+                "Min Hexagon Size Adjustment",
+                min = 0,
+                max = 1,
+                value = 0.4,
+                step = 0.05)
+  })
+
+  alpha_range = reactive({
+    req(input$chart_type == "Hexagonal", input$hex_radius)
+    max_alpha = 0.98
+    min_alpha = max_alpha - 0.25 * input$hex_radius
+    c(min_alpha, max_alpha)
+  })
+
+  output$hex_metric_buttons = renderUI({
+    req(input$chart_type == "Hexagonal")
+
+    selectInput("hex_metric",
+                "Hexagon Colors",
+                choices = c("FG% vs. League Avg" = "bounded_fg_diff",
+                            "FG%" = "bounded_fg_pct",
+                            "Points Per Shot" = "bounded_points_per_shot"),
+                selected = "bounded_fg_diff",
+                selectize = FALSE)
+  })
+
+  shot_chart = reactive({
+    req(filtered_shots(), current_player(), current_season(), input$chart_type)
+
+    short_three = current_season() %in% short_three_seasons
+    filters_applied()
+
+    if (input$chart_type == "Hexagonal") {
+      req(input$hex_metric, alpha_range())
+
+      generate_hex_chart(
+        hex_data = hexbin_data(),
+        use_short_three = short_three,
+        metric = input$hex_metric,
+        alpha_range = alpha_range()
+      )
+    } else if (input$chart_type == "Scatter") {
+      generate_scatter_chart(filtered_shots(), use_short_three = short_three)
+    } else if (input$chart_type == "Heat Map") {
+      generate_heatmap_chart(filtered_shots(), use_short_three = short_three)
+    } else {
+      stop("invalid chart type")
+    }
+  })
+
+  output$chart_header_player = renderText({
+    req(current_player())
+    current_player()$name
+  })
+
+  output$chart_header_info = renderText({
+    req(current_season(), shots())
+    paste(current_season(), "Regular Season")
+  })
+
+  output$chart_header_team = renderText({
+    req(shots()$player)
+    paste0(unique(shots()$player$team_name), collapse = ", ")
+  })
+
+  output$shot_chart_footer = renderUI({
+    req(shot_chart())
+
+    tags$div(
+      "Data via stats.nba.com",
+      tags$br(),
+      "toddwschneider.com/ballr"
+    )
+  })
+
+  output$download_link = renderUI({
+    req(shot_chart())
+
+    filename_parts = c(
+      current_player()$name,
+      current_season(),
+      "Shot Chart",
+      input$chart_type
+    )
+    fname = paste0(gsub("_", "-", gsub(" ", "-", tolower(filename_parts))), collapse = "-")
+
+    tags$a("Download Chart",
+           href = "#",
+           class = "download-shot-chart",
+           "data-filename" = paste0(fname, ".png"))
+  })
+
+  output$player_photo = renderUI({
+    if (input$player_name == "") {
+      tags$img(src = "http://i.imgur.com/hXWPTOF.png", alt = "photo")
+    } else if (req(current_player()$person_id)) {
+      tags$img(src = player_photo_url(current_player()$person_id), alt = "photo")
+    }
+  })
+
+  output$court = renderPlot({
+    req(shot_chart())
+    withProgress({
+      shot_chart()
+    }, message = "Calculating...")
+  }, height = 600, width = 800, bg = bg_color)
+
+  filters_applied = reactive({
+    req(filtered_shots())
+    filters = list()
+
+    if (!is.null(input$shot_zone_basic_filter)) {
+      filters[["Zone"]] = paste("Zone:", paste(input$shot_zone_basic_filter, collapse = ", "))
+    }
+
+    if (!is.null(input$shot_zone_angle_filter)) {
+      filters[["Angle"]] = paste("Angle:", paste(input$shot_zone_angle_filter, collapse = ", "))
+    }
+
+    if (!is.null(input$shot_distance_filter)) {
+      filters[["Distance"]] = paste("Distance:", paste(input$shot_distance_filter, collapse = ", "))
+    }
+
+    if (input$shot_result_filter != "all") {
+      filters[["Result"]] = paste("Result:", input$shot_result_filter)
+    }
+
+    filters
+  })
+
+  output$shot_filters_applied = renderUI({
+    req(length(filters_applied()) > 0)
+
+    div(class = "shot-filters",
+      tags$h5("Shot Filters Applied"),
+      lapply(filters_applied(), function(text) {
+        div(text)
+      })
+    )
+  })
+
+  output$summary_stats_header = renderText({
+    req(current_player())
+    paste(current_player()$name, current_season(), "Summary Stats")
+  })
+
+  output$summary_stats = renderUI({
+    req(filtered_shots(), shots())
+    req(nrow(filtered_shots()) > 0)
+
+    player_zone = filtered_shots() %>%
+      group_by(shot_zone_basic) %>%
+      summarize(fgm = sum(shot_made_numeric),
+                fga = n(),
+                pct = mean(shot_made_numeric),
+                pct_as_text = fraction_to_percent_format(pct),
+                points_per_shot = mean(shot_value * shot_made_numeric)) %>%
+      arrange(desc(fga), desc(fgm))
+
+    league_zone = shots()$league_averages %>%
+      group_by(shot_zone_basic) %>%
+      summarize(lg_fgm = sum(fgm),
+                lg_fga = sum(fga),
+                lg_pct = lg_fgm / lg_fga,
+                lg_pct_as_text = fraction_to_percent_format(lg_pct),
+                lg_points_per_shot = round(mean(shot_value * lg_pct), 2))
+
+    merged = inner_join(player_zone, league_zone, by = "shot_zone_basic")
+
+    overall = summarize(merged,
+      total_fgm = sum(fgm),
+      total_fga = sum(fga),
+      pct = total_fgm / total_fga,
+      pct_as_text = fraction_to_percent_format(pct),
+      points_per_shot = sum(points_per_shot * fga) / sum(fga),
+      lg_pct = sum(lg_fgm) / sum(lg_fga),
+      lg_pct_as_text = fraction_to_percent_format(lg_pct),
+      lg_points_per_shot = sum(lg_points_per_shot * lg_fga) / sum(lg_fga)
+    )
+
+    html = list(div(class = "row headers",
+      span(class = "col-xs-4 col-md-3 zone-label", "Zone"),
+      span(class = "col-xs-2 col-md-1 numeric", "FGM"),
+      span(class = "col-xs-2 col-md-1 numeric", "FGA"),
+      span(class = "col-xs-2 col-md-2 numeric", "FG%"),
+      span(class = "col-xs-2 col-md-1 numeric", "Lg FG%"),
+      span(class = "hidden-xs hidden-sm col-md-2 numeric", "Pts/Shot"),
+      span(class = "hidden-xs hidden-sm col-md-1 numeric", "Lg Pts/Shot")
+    ))
+
+    for (i in 1:nrow(merged)) {
+      html[[i + 2]] = div(class = paste("row", ifelse(i %% 2 == 0, "even", "odd")),
+        span(class = "col-xs-4 col-md-3 zone-label", merged$shot_zone_basic[i]),
+        span(class = "col-xs-2 col-md-1 numeric", merged$fgm[i]),
+        span(class = "col-xs-2 col-md-1 numeric", merged$fga[i]),
+        span(class = "col-xs-2 col-md-2 numeric", merged$pct_as_text[i]),
+        span(class = "col-xs-2 col-md-1 numeric", merged$lg_pct_as_text[i]),
+        span(class = "hidden-xs hidden-sm col-md-2 numeric", round(merged$points_per_shot[i], 2)),
+        span(class = "hidden-xs hidden-sm col-md-1 numeric", round(merged$lg_points_per_shot[i], 2))
+      )
+    }
+
+    html[[length(html) + 1]] = div(class = "row overall",
+      span(class = "col-xs-4 col-md-3 zone-label", "Overall"),
+      span(class = "col-xs-2 col-md-1 numeric", overall$total_fgm),
+      span(class = "col-xs-2 col-md-1 numeric", overall$total_fga),
+      span(class = "col-xs-2 col-md-2 numeric", overall$pct_as_text),
+      span(class = "col-xs-2 col-md-1 numeric", overall$lg_pct_as_text),
+      span(class = "hidden-xs hidden-sm col-md-2 numeric", round(overall$points_per_shot, 2)),
+      span(class = "hidden-xs hidden-sm col-md-1 numeric", round(overall$lg_points_per_shot, 2))
+    )
+
+    html
+  })
+
+
+
+```
+
+
+Inputs {.sidebar data-width=375}
+-------------------------------------
+
+```{r inputs}
+
+inputPanel(
+ selectInput(inputId = "player_name",
+                      label = "Player",
+                      choices = c("Enter a player..." = "", available_players$name),
+                      selected = default_player$name,
+                      selectize = FALSE),
+
+          selectInput(inputId = "season",
+                      label = "Season",
+                      choices = rev(default_seasons),
+                      selected = default_season,
+                      selectize = FALSE)
+)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+ output$plot <- renderPlot({
+
+   # if (use_short_three) {
+   #   base_court = short_three_court
+   # } else {
+   #   base_court = court
+   # }
+
+   
+   base_court = court
+   shots <- oneGame
+
+   base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag),
+       alpha = 0.8, size = 2.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+
+ })
+
+plotOutput("plot")
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
