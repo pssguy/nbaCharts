@@ -239,91 +239,6 @@ player_photo_url = function(player_id) {
 ```
 
 
-``` {r fetch_shots_old}
-
-# fetch_shots_by_player_id_and_season = function(player_id, season) {
-#   req(player_id, season)
-#   
-#   print(player_id)
-#   print(season)
-#   
-#   # player_id <- 201939
-#   # season <- "2015-16"
-# 
-#   request = GET(
-#     "http://stats.nba.com/stats/shotchartdetail",
-#     query = list(
-#       PlayerID = player_id,
-#       Season = season,
-#       ContextMeasure = "FGA",
-#       DateFrom = "",
-#       DateTo = "",
-#       GameID = "",
-#       GameSegment = "",
-#       LastNGames = 0,
-#       LeagueID = "00",
-#       Location = "",
-#       Month = 0,
-#       OpponentTeamID = 0,
-#       Outcome = "",
-#       Period = 0,
-#       Position = "",
-#       RookieYear = "",
-#       SeasonSegment = "",
-#       SeasonType = "Regular Season",
-#       TeamID = 0,
-#       VsConference = "",
-#       VsDivision = ""
-#     )
-#   )
-# 
-#   stop_for_status(request)
-# 
-#   data = content(request)
-# 
-#   
-#   
-#   
-#   raw_shots_data = data$resultSets[[1]]$rowSet
-#   col_names = tolower(as.character(data$resultSets[[1]]$headers))
-# 
-#   if (length(raw_shots_data) == 0) {
-#     shots = data.frame(
-#       matrix(nrow = 0, ncol = length(col_names))
-#     )
-#   } else {
-#     shots = data.frame(
-#       matrix(
-#         unlist(raw_shots_data),
-#         ncol = length(col_names),
-#         byrow = TRUE
-#       )
-#     )
-#   }
-# 
-#   shots = tbl_df(shots)
-#   names(shots) = col_names
-# 
-#   shots = mutate(shots,
-#     loc_x = as.numeric(as.character(loc_x)) / 10,
-#     loc_y = as.numeric(as.character(loc_y)) / 10 + hoop_center_y,
-#     shot_distance = as.numeric(as.character(shot_distance)),
-#     shot_made_numeric = as.numeric(as.character(shot_made_flag)),
-#     shot_made_flag = factor(shot_made_flag, levels = c("1", "0"), labels = c("made", "missed")),
-#     shot_attempted_flag = as.numeric(as.character(shot_attempted_flag)),
-#     shot_value = ifelse(tolower(shot_type) == "3pt field goal", 3, 2)
-#   )
-#   
-#   
-# 
-#   return(list(player = shots))
-# }
-# 
-# default_shots = fetch_shots_by_player_id_and_season(default_player$person_id, default_season)
-
-
-
-```
 
 
 
@@ -332,15 +247,11 @@ player_photo_url = function(player_id) {
 #fetch_shots_by_player_id_and_season = function(player_id, season) {
 
 shotData <- reactive({
-  
-  print("enter shotdata")
+ 
   
   req(input$player_name, input$season)
   
-  print(glimpse(players))
-  print(names(players))
-  print(input$season)
-  print(input$player_name)
+  
   
   req(input$player_name, input$season)
   
@@ -348,11 +259,9 @@ shotData <- reactive({
   player_id <- players[players$display_first_last==input$player_name,]$person_id
   season <- input$season
   
-  print(player_id)
-  print(season)
+ 
   
-  # player_id <- 201939
-  # season <- "2015-16"
+ 
 
   request = GET(
     "http://stats.nba.com/stats/shotchartdetail",
@@ -392,7 +301,7 @@ shotData <- reactive({
   col_names = tolower(as.character(data$resultSets[[1]]$headers))
   
   
-  #print(glimpse(raw_shots_data))
+
 
   if (length(raw_shots_data) == 0) {
     shots = data.frame(
@@ -423,7 +332,7 @@ shotData <- reactive({
     shot_value = ifelse(tolower(shot_type) == "3pt field goal", 3, 2)
   )
   
-
+glimpse(shots)
 
   return(list(player = shots))
 })
@@ -434,35 +343,10 @@ shotData <- reactive({
 
 ```
 
-``` {r scatter}
 
-# switched to individual charts
-
-# generate_scatter_chart = function(shots, use_short_three = FALSE) {
-#   if (use_short_three) {
-#     base_court = short_three_court
-#   } else {
-#     base_court = court    
-#   }
-# 
-#   # test
-#   shots <- oneGame
-#   
-#   base_court +
-#     geom_point(
-#       data = shots,
-#       aes(x = loc_x, y = loc_y,
-#           color = shot_made_flag),
-#       alpha = 0.8, size = 2.5
-#     ) +
-#     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
-# }
-# 
-
-```
 
 ``` {r server code}
-## presumably can dispense with lots
+
 
  current_player = reactive({
     req(input$player_name)
@@ -512,145 +396,6 @@ shotData <- reactive({
     }
   })
 
-  filtered_shots = reactive({
-    req(input$shot_result_filter, shots()$player)
-
-    filter(shots()$player,
-      input$shot_result_filter == "all" | shot_made_flag == input$shot_result_filter,
-      shot_zone_basic != "Backcourt",
-      is.null(input$shot_zone_basic_filter) | shot_zone_basic %in% input$shot_zone_basic_filter,
-      is.null(input$shot_zone_angle_filter) | shot_zone_area %in% input$shot_zone_angle_filter,
-      is.null(input$shot_distance_filter) | shot_zone_range %in% input$shot_distance_filter
-    )
-  })
-
-  hexbin_data = reactive({
-    req(filtered_shots(), shots(), hexbinwidths(), input$hex_radius)
-
-    calculate_hexbins_from_shots(filtered_shots(), shots()$league_averages,
-                                 binwidths = hexbinwidths(),
-                                 min_radius_factor = input$hex_radius)
-  })
-
-  output$hexbinwidth_slider = renderUI({
-    req(input$chart_type == "Hexagonal")
-
-    sliderInput("hexbinwidth",
-                "Hexagon Size (feet)",
-                min = 0.5,
-                max = 4,
-                value = 1.5,
-                step = 0.25)
-  })
-
-  hexbinwidths = reactive({
-    req(input$hexbinwidth)
-    rep(input$hexbinwidth, 2)
-  })
-
-  output$hex_radius_slider = renderUI({
-    req(input$chart_type == "Hexagonal")
-
-    sliderInput("hex_radius",
-                "Min Hexagon Size Adjustment",
-                min = 0,
-                max = 1,
-                value = 0.4,
-                step = 0.05)
-  })
-
-  alpha_range = reactive({
-    req(input$chart_type == "Hexagonal", input$hex_radius)
-    max_alpha = 0.98
-    min_alpha = max_alpha - 0.25 * input$hex_radius
-    c(min_alpha, max_alpha)
-  })
-
-  output$hex_metric_buttons = renderUI({
-    req(input$chart_type == "Hexagonal")
-
-    selectInput("hex_metric",
-                "Hexagon Colors",
-                choices = c("FG% vs. League Avg" = "bounded_fg_diff",
-                            "FG%" = "bounded_fg_pct",
-                            "Points Per Shot" = "bounded_points_per_shot"),
-                selected = "bounded_fg_diff",
-                selectize = FALSE)
-  })
-
-  shot_chart = reactive({
-    req(filtered_shots(), current_player(), current_season(), input$chart_type)
-
-    short_three = current_season() %in% short_three_seasons
-    filters_applied()
-
-    if (input$chart_type == "Hexagonal") {
-      req(input$hex_metric, alpha_range())
-
-      generate_hex_chart(
-        hex_data = hexbin_data(),
-        use_short_three = short_three,
-        metric = input$hex_metric,
-        alpha_range = alpha_range()
-      )
-    } else if (input$chart_type == "Scatter") {
-      generate_scatter_chart(filtered_shots(), use_short_three = short_three)
-    } else if (input$chart_type == "Heat Map") {
-      generate_heatmap_chart(filtered_shots(), use_short_three = short_three)
-    } else {
-      stop("invalid chart type")
-    }
-  })
-
-  output$chart_header_player = renderText({
-    req(current_player())
-    current_player()$name
-  })
-
-  output$chart_header_info = renderText({
-    req(current_season(), shots())
-    paste(current_season(), "Regular Season")
-  })
-
-  output$chart_header_team = renderText({
-    req(shots()$player)
-    paste0(unique(shots()$player$team_name), collapse = ", ")
-  })
-
-  output$shot_chart_footer = renderUI({
-    req(shot_chart())
-
-    tags$div(
-      "Data via stats.nba.com",
-      tags$br(),
-      "toddwschneider.com/ballr"
-    )
-  })
-
-  output$download_link = renderUI({
-    req(shot_chart())
-
-    filename_parts = c(
-      current_player()$name,
-      current_season(),
-      "Shot Chart",
-      input$chart_type
-    )
-    fname = paste0(gsub("_", "-", gsub(" ", "-", tolower(filename_parts))), collapse = "-")
-
-    tags$a("Download Chart",
-           href = "#",
-           class = "download-shot-chart",
-           "data-filename" = paste0(fname, ".png"))
-  })
-
-  output$player_photo = renderUI({
-    if (input$player_name == "") {
-      tags$img(src = "http://i.imgur.com/hXWPTOF.png", alt = "photo")
-    } else if (req(current_player()$person_id)) {
-      tags$img(src = player_photo_url(current_player()$person_id), alt = "photo")
-    }
-  })
 
   output$court = renderPlot({
     req(shot_chart())
@@ -693,103 +438,33 @@ shotData <- reactive({
     )
   })
 
-  output$summary_stats_header = renderText({
-    req(current_player())
-    paste(current_player()$name, current_season(), "Summary Stats")
-  })
-
-  output$summary_stats = renderUI({
-    req(filtered_shots(), shots())
-    req(nrow(filtered_shots()) > 0)
-
-    player_zone = filtered_shots() %>%
-      group_by(shot_zone_basic) %>%
-      summarize(fgm = sum(shot_made_numeric),
-                fga = n(),
-                pct = mean(shot_made_numeric),
-                pct_as_text = fraction_to_percent_format(pct),
-                points_per_shot = mean(shot_value * shot_made_numeric)) %>%
-      arrange(desc(fga), desc(fgm))
-
-    league_zone = shots()$league_averages %>%
-      group_by(shot_zone_basic) %>%
-      summarize(lg_fgm = sum(fgm),
-                lg_fga = sum(fga),
-                lg_pct = lg_fgm / lg_fga,
-                lg_pct_as_text = fraction_to_percent_format(lg_pct),
-                lg_points_per_shot = round(mean(shot_value * lg_pct), 2))
-
-    merged = inner_join(player_zone, league_zone, by = "shot_zone_basic")
-
-    overall = summarize(merged,
-      total_fgm = sum(fgm),
-      total_fga = sum(fga),
-      pct = total_fgm / total_fga,
-      pct_as_text = fraction_to_percent_format(pct),
-      points_per_shot = sum(points_per_shot * fga) / sum(fga),
-      lg_pct = sum(lg_fgm) / sum(lg_fga),
-      lg_pct_as_text = fraction_to_percent_format(lg_pct),
-      lg_points_per_shot = sum(lg_points_per_shot * lg_fga) / sum(lg_fga)
-    )
-
-    html = list(div(class = "row headers",
-      span(class = "col-xs-4 col-md-3 zone-label", "Zone"),
-      span(class = "col-xs-2 col-md-1 numeric", "FGM"),
-      span(class = "col-xs-2 col-md-1 numeric", "FGA"),
-      span(class = "col-xs-2 col-md-2 numeric", "FG%"),
-      span(class = "col-xs-2 col-md-1 numeric", "Lg FG%"),
-      span(class = "hidden-xs hidden-sm col-md-2 numeric", "Pts/Shot"),
-      span(class = "hidden-xs hidden-sm col-md-1 numeric", "Lg Pts/Shot")
-    ))
-
-    for (i in 1:nrow(merged)) {
-      html[[i + 2]] = div(class = paste("row", ifelse(i %% 2 == 0, "even", "odd")),
-        span(class = "col-xs-4 col-md-3 zone-label", merged$shot_zone_basic[i]),
-        span(class = "col-xs-2 col-md-1 numeric", merged$fgm[i]),
-        span(class = "col-xs-2 col-md-1 numeric", merged$fga[i]),
-        span(class = "col-xs-2 col-md-2 numeric", merged$pct_as_text[i]),
-        span(class = "col-xs-2 col-md-1 numeric", merged$lg_pct_as_text[i]),
-        span(class = "hidden-xs hidden-sm col-md-2 numeric", round(merged$points_per_shot[i], 2)),
-        span(class = "hidden-xs hidden-sm col-md-1 numeric", round(merged$lg_points_per_shot[i], 2))
-      )
-    }
-
-    html[[length(html) + 1]] = div(class = "row overall",
-      span(class = "col-xs-4 col-md-3 zone-label", "Overall"),
-      span(class = "col-xs-2 col-md-1 numeric", overall$total_fgm),
-      span(class = "col-xs-2 col-md-1 numeric", overall$total_fga),
-      span(class = "col-xs-2 col-md-2 numeric", overall$pct_as_text),
-      span(class = "col-xs-2 col-md-1 numeric", overall$lg_pct_as_text),
-      span(class = "hidden-xs hidden-sm col-md-2 numeric", round(overall$points_per_shot, 2)),
-      span(class = "hidden-xs hidden-sm col-md-1 numeric", round(overall$lg_points_per_shot, 2))
-    )
-
-    html
-  })
 
 
 
 ```
 
+Career {data-icon="fa-list"}
+===================================== 
 
 Inputs {.sidebar data-width=375}
 -------------------------------------
 
 ```{r inputs}
+ 
+ inputPanel(
+  selectInput(inputId = "player_name",
+                       label = "Player",
+                       choices = c("Enter a player..." = "", available_players$name),
+                       selected = default_player$name,
+                       selectize = FALSE),
+ 
+           selectInput(inputId = "season",
+                       label = "Season",
+                       choices = rev(default_seasons),
+                       selected = default_season,
+                       selectize = FALSE)
+ )
 
-inputPanel(
- selectInput(inputId = "player_name",
-                      label = "Player",
-                      choices = c("Enter a player..." = "", available_players$name),
-                      selected = default_player$name,
-                      selectize = FALSE),
-
-          selectInput(inputId = "season",
-                      label = "Season",
-                      choices = rev(default_seasons),
-                      selected = default_season,
-                      selectize = FALSE)
-)
 ```
 
 ### Season
@@ -806,7 +481,7 @@ inputPanel(
 
    
    base_court = court
-   #shots <- oneGame
+   
    shots <- shotData()$player
 
    base_court +
