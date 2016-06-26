@@ -3,7 +3,9 @@ title: "NBA Shot Charts"
 author: "myTinyShinys"
 output: 
   flexdashboard::flex_dashboard:
+    theme: flatly
     orientation: rows
+    social: [ menu ]
     vertical_layout: scroll
 runtime: shiny    
 ---
@@ -504,14 +506,15 @@ glimpse(shots) #nothing on season need to
 
 ```
 
-Season {data-icon="fa-list"}
+Regular Season {data-icon="fa-list"}
 ===================================== 
 
 Inputs {.sidebar data-width=375}
 -------------------------------------
 
 ```{r inputs}
- 
+ includeMarkdown("shotChartInfo.md")
+hr()
  inputPanel(
   selectInput(inputId = "player_name",
                        label = "Player",
@@ -598,13 +601,16 @@ Row {data-height=250}
     if (nrow(shots)==0) return()
    
    theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
-
+    # shots$tooltip <- paste0("Distance: ",shots$shot_distance,"ft",
+    #                         "<br>", shots$action_type)
+   shots$Details <- paste0(shots$action_type," ",shots$shot_distance,"ft ",shots$shot_value,"pts")
+                           
    
   gg <- base_court +
      geom_point(
        data = shots,
        aes(x = loc_x, y = loc_y,
-           color = shot_made_flag, label=shot_distance),
+           color = shot_made_flag, label=Details),
        alpha = 1.0, size = 0.5
      ) +
      scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
