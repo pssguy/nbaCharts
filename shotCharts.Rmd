@@ -18,6 +18,7 @@ library(httr)
 library(jsonlite)
 library(readr)
 library(plotly)
+library(feather)
 
 library(dplyr)
 
@@ -26,9 +27,14 @@ library(dplyr)
 oneGame <- read_csv("data/oneGame.csv")
 
 # gameIDS
-gamelogs <- read_csv("data/teamgamelogs2015.csv")
+#gamelogs <- read_csv("data/teamgamelogs2015.csv")
+
+gamelogs <- read_feather("data/teamgamelogs.feather")
 
 glimpse(gamelogs)
+
+gamelogs <-gamelogs %>% 
+  mutate(team_id=as.integer(as.character(team_id)))
 
 # ## need to do earlier
 # gamelogs %>% 
@@ -506,6 +512,22 @@ glimpse(shots) #nothing on season need to
 
 ```
 
+<!-- Test External -->
+<!-- =====================================  -->
+
+<!-- ```{r, echo = FALSE} -->
+<!-- shinyAppDir( -->
+<!--   system.file("examples/06_tabsets", package="shiny"), -->
+<!--   options=list( -->
+<!--     width="100%", height=700 -->
+<!--   ) -->
+<!-- ) -->
+<!-- ``` -->
+
+
+
+
+
 Regular Season {data-icon="fa-list"}
 ===================================== 
 
@@ -528,7 +550,7 @@ hr()
                        selected = default_season,
                        selectize = TRUE, width=100),
         sliderInput(inputId = "games",label="Games to Display", min=1,max=82, value=15),
-  radioButtons(inputId="game_order", label="Arranged By", choices=c("Date","Points"), inline=TRUE),
+  radioButtons(inputId="game_order", label="Arranged By", choices=c("Date","Points(excl FT"), inline=TRUE),
   actionButton("go","Click for Charts")
  )
 
