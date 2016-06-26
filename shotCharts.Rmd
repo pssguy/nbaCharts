@@ -473,7 +473,7 @@ shots <- shots %>%
 
 ```
 
-Career {data-icon="fa-list"}
+Season {data-icon="fa-list"}
 ===================================== 
 
 Inputs {.sidebar data-width=375}
@@ -1184,6 +1184,2107 @@ Row {data-height=250}
    
    shots <- shotData()$player %>% 
      filter(gameOrder==20)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==21)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==22)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==23)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==24)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==25)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==26)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==27)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==28)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==29)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==30)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==31)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==32)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==33)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==34)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==35)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==36)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==37)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==38)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==39)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==40)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==41)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==42)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==43)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==44)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==45)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==46)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==47)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==48)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==49)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==50)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==51)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==52)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==53)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==54)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==55)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==56)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==57)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==58)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==59)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==60)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==61)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==62)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==63)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==64)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==65)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==66)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==67)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==68)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==69)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==70)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==71)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==72)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==73)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==74)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==75)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+Row {data-height=250}
+-----------------------------------------------------------------------
+
+### {.no-title}
+
+```{r}
+
+  
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==76)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+
+ })
+
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==77)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==78)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==79)
+    if (nrow(shots)==0) return()
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==80)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==81)
+   
+   if (nrow(shots)==0) return()
+   
+   
+   theTitle=paste0(shots$matchup[1]," ",shots$game_date[1])
+
+   
+  gg <- base_court +
+     geom_point(
+       data = shots,
+       aes(x = loc_x, y = loc_y,
+           color = shot_made_flag, label=shot_distance),
+       alpha = 0.8, size = 0.5
+     ) +
+     scale_color_manual("", values = c(made = "#FDE725", missed = "#1F9D89"))
+  
+   p <- ggplotly(gg, tooltip="label") %>% 
+     layout(showlegend=FALSE, 
+            title=theTitle,
+            font=list(size=12)) %>% 
+   config(displayModeBar = F,showLink = F)
+    p
+ })
+```
+
+
+### {.no-title}
+
+```{r}
+
+ renderPlotly({
+   base_court = court
+   
+   shots <- shotData()$player %>% 
+     filter(gameOrder==82)
    
    if (nrow(shots)==0) return()
    
